@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Боул с курицей и овощами | Зелёная тарелка</title>
+
+  <style>
+    :root {
+      --green: #235b45;
+      --mint: #eaf4ec;
+      --cream: #fffaf1;
+      --ink: #18352b;
+      --muted: #718078;
+      --orange: #f28c45;
+      --card: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--cream);
+      color: var(--ink);
+      font-family: Arial, sans-serif;
+    }
+
+    .site-header {
+      max-width: 1180px;
+      margin: auto;
+      padding: 22px 28px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      color: var(--green);
+      font-size: 21px;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .back-button {
+      padding: 12px 17px;
+      border-radius: 12px;
+      background: white;
+      color: var(--green);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: bold;
+      box-shadow: 0 4px 0 #c4d4c8;
+      transition: 0.2s ease;
+    }
+
+    .back-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 0 #b6cabd;
+    }
+
+    .recipe-hero {
+      padding: 70px 28px 0;
+      background: var(--mint);
+    }
+
+    .hero-content {
+      max-width: 950px;
+      margin: auto;
+      text-align: center;
+    }
+
+    .recipe-tag {
+      color: var(--orange);
+      font-size: 12px;
+      font-weight: bold;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 16px 0;
+      font-size: clamp(38px, 6vw, 68px);
+      line-height: 1.05;
+      letter-spacing: -2px;
+    }
+
+    .intro {
+      max-width: 650px;
+      margin: auto;
+      color: #456055;
+      font-size: 19px;
+      line-height: 1.6;
+    }
+
+    .recipe-image {
+      display: block;
+      width: min(100%, 900px);
+      height: 390px;
+      margin: 42px auto -145px;
+
+      border-radius: 24px;
+      object-fit: cover;
+      box-shadow: 0 20px 45px rgba(35, 91, 69, 0.2);
+    }
+
+    .recipe-layout {
+      max-width: 950px;
+      margin: 195px auto 70px;
+      padding: 0 28px;
+
+      display: grid;
+      grid-template-columns: 1fr 260px;
+      gap: 45px;
+    }
+
+    .recipe-content {
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    .recipe-content h2 {
+      margin-top: 38px;
+      color: var(--green);
+      font-size: 30px;
+      line-height: 1.2;
+    }
+
+    .recipe-content h3 {
+      font-size: 22px;
+    }
+
+    .recipe-content li {
+      margin: 9px 0;
+    }
+
+    .ingredients {
+      height: max-content;
+      padding: 24px;
+      border-radius: 18px;
+      background: var(--card);
+      box-shadow: 0 8px 25px rgba(35, 91, 69, 0.1);
+      position: sticky;
+      top: 20px;
+    }
+
+    .ingredients h2 {
+      margin-top: 0;
+      color: var(--green);
+      font-size: 22px;
+    }
+
+    .ingredients ul {
+      padding-left: 20px;
+    }
+
+    .ingredients li {
+      margin: 11px 0;
+    }
+
+    .info {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 30px 0;
+    }
+
+    .info-item {
+      padding: 16px;
+      border-radius: 14px;
+      background: var(--mint);
+      text-align: center;
+    }
+
+    .info-item strong {
+      display: block;
+      color: var(--green);
+      font-size: 20px;
+    }
+
+    .info-item span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .tip {
+      margin: 28px 0;
+      padding: 20px 22px;
+      border-left: 5px solid var(--orange);
+      border-radius: 12px;
+      background: #fff3df;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 25px;
+      color: var(--green);
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    footer {
+      padding: 30px 28px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    @media (max-width: 750px) {
+      .site-header {
+        padding: 18px 20px;
+      }
+
+      .recipe-hero {
+        padding: 50px 20px 0;
+      }
+
+      .recipe-image {
+        height: 250px;
+        margin-bottom: -95px;
+      }
+
+      .recipe-layout {
+        display: block;
+        margin-top: 130px;
+        padding: 0 20px;
+      }
+
+      .ingredients {
+        position: static;
+        margin-bottom: 35px;
+      }
+
+      .recipe-content {
+        font-size: 16px;
+      }
+
+      .info {
+        grid-template-columns: 1fr;
+      }
+    }
+
+.home-button {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 10;
+
+  display: none;
+  align-items: center;
+  gap: 8px;
+
+  padding: 13px 17px;
+  border: none;
+  border-radius: 999px;
+
+  background: #235b45;
+  color: white;
+  box-shadow: 0 8px 22px rgba(35, 91, 69, 0.28);
+
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: 0.2s ease;
+}
+
+.home-button:hover {
+  background: #174432;
+  transform: translateY(-2px);
+}
+  </style>
+</head>
+
+<body>
+
+  <button
+  class="home-button"
+  id="homeButton"
+  aria-label="Вернуться на главный экран"
+>
+  ↑ На главную
+</button>
+
+  <header class="site-header">
+    <a class="logo" href="index.html">
+      🥬 Зелёная тарелка
+    </a>
+
+    <a class="back-button" href="index.html#recipes">
+      ← Все рецепты
+    </a>
+  </header>
+
+  <main>
+
+    <section class="recipe-hero">
+      <div class="hero-content">
+
+        <div class="recipe-tag">
+          ОБЕД · 25 МИН
+        </div>
+
+        <h1>Боул с курицей и овощами</h1>
+
+        <p class="intro">
+          Сытный и сбалансированный боул с нежной курицей,
+          крупой, свежими овощами и лёгким йогуртовым соусом.
+        </p>
+
+        <img
+          class="recipe-image"
+          src="pic/chichen.WebP"
+          alt="Боул с курицей и овощами"
+        >
+
+      </div>
+    </section>
+
+    <section class="recipe-layout">
+
+      <article class="recipe-content">
+
+        <div class="info">
+          <div class="info-item">
+            <strong>25 мин</strong>
+            <span>время приготовления</span>
+          </div>
+
+          <div class="info-item">
+            <strong>2 порции</strong>
+            <span>выход блюда</span>
+          </div>
+
+          <div class="info-item">
+            <strong>510 ккал</strong>
+            <span>примерно на порцию</span>
+          </div>
+        </div>
+
+        <h2>Почему стоит попробовать</h2>
+
+        <p>
+          Этот боул удобно собрать заранее и взять с собой на работу
+          или учёбу. В нём есть белок из курицы, сложные углеводы
+          из киноа или риса, клетчатка из овощей и полезные жиры
+          из оливкового масла.
+        </p>
+
+        <h2>Как приготовить</h2>
+
+        <ol>
+          <li>
+            Промой киноа и отвари до готовности. Если используешь рис,
+            приготовь его по инструкции на упаковке.
+          </li>
+
+          <li>
+            Куриную грудку нарежь небольшими кусочками.
+            Добавь паприку, сушёный чеснок, соль, перец
+            и чайную ложку оливкового масла.
+          </li>
+
+          <li>
+            Обжарь курицу на хорошо разогретой сковороде
+            примерно 6–8 минут до полной готовности.
+          </li>
+
+          <li>
+            Нарежь болгарский перец, огурец, помидоры и морковь.
+            Брокколи можно быстро приготовить на пару.
+          </li>
+
+          <li>
+            Разложи в миски крупу, курицу и овощи.
+            Полей соусом и укрась зеленью.
+          </li>
+        </ol>
+
+        <div class="tip">
+          <strong>Совет:</strong>
+          чтобы курица получилась сочнее, не пережаривай её
+          и дай мясу отдохнуть 2–3 минуты после приготовления.
+        </div>
+
+        <h2>Лёгкий йогуртовый соус</h2>
+
+        <p>
+          Смешай натуральный греческий йогурт с лимонным соком,
+          небольшим количеством горчицы, сушёным чесноком,
+          солью и перцем.
+        </p>
+
+        <a class="back-link" href="index.html#recipes">
+          ← Вернуться к рецептам
+        </a>
+
+      </article>
+
+      <aside class="ingredients">
+        <h2>Ингредиенты</h2>
+
+        <ul>
+          <li>250 г куриной грудки</li>
+          <li>120 г готовой киноа или риса</li>
+          <li>½ болгарского перца</li>
+          <li>1 небольшой огурец</li>
+          <li>6 помидоров черри</li>
+          <li>100 г брокколи</li>
+          <li>1 небольшая морковь</li>
+          <li>1 ст. л. оливкового масла</li>
+          <li>Паприка</li>
+          <li>Соль и перец</li>
+          <li>Свежая зелень</li>
+        </ul>
+      </aside>
+
+    </section>
+
+  </main>
+
+  <footer>
+    © 2026 Зелёная тарелка · Сделано с заботой о себе
+  </footer>
+
+  <script>
+const homeButton = document.getElementById("homeButton");
+
+window.addEventListener("scroll", () => {
+  if (window.scrollY > 350) {
+    homeButton.style.display = "flex";
+  } else {
+    homeButton.style.display = "none";
+  }
+});
+
+homeButton.addEventListener("click", () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+});
+</script>
+</body>
+</html>

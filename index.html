@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Зелёная тарелка — рецепты правильного питания</title>
+
+  <style>
+    :root {
+      --green: #235b45;
+      --light-green: #eaf4ec;
+      --cream: #fffaf1;
+      --orange: #f28c45;
+      --text: #18352b;
+      --muted: #718078;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--cream);
+      color: var(--text);
+      font-family: Arial, sans-serif;
+    }
+
+    .site-header {
+  position: relative;
+  max-width: 1180px;
+  margin: auto;
+  padding: 22px 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  color: #235b45;
+  font-size: 21px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.main-nav a {
+  color: #18352b;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.burger {
+  display: none;
+  padding: 8px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.burger span {
+  display: block;
+  width: 27px;
+  height: 3px;
+  margin: 5px 0;
+
+  border-radius: 5px;
+  background: #235b45;
+  transition: 0.25s;
+}
+
+@media (max-width: 750px) {
+  .site-header {
+    padding: 18px 20px;
+  }
+
+  .burger {
+    display: block;
+    z-index: 3;
+  }
+
+  .main-nav {
+    position: absolute;
+    top: 78px;
+    left: 20px;
+    right: 20px;
+    z-index: 2;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+
+    padding: 15px;
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 14px 30px rgba(35, 91, 69, 0.18);
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: 0.25s ease;
+  }
+
+  .main-nav.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .main-nav a,
+  .main-nav .theme-toggle {
+    width: 100%;
+    margin: 0;
+    text-align: center;
+  }
+
+  .burger.active span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+
+  .burger.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .burger.active span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
+  body.dark-theme .main-nav {
+    background: #1d2923;
+  }
+}
+
+    .hero {
+      padding: 75px 28px;
+      background: var(--light-green);
+    }
+
+    .hero-content {
+      max-width: 1180px;
+      margin: auto;
+
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      color: var(--orange);
+      font-size: 12px;
+      font-weight: bold;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 650px;
+      margin: 15px 0 20px;
+
+      font-size: clamp(42px, 6vw, 76px);
+      line-height: 1.02;
+      letter-spacing: -3px;
+    }
+
+    .hero-text {
+      max-width: 550px;
+      color: #456055;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    .button {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 15px 22px;
+
+      border-radius: 12px;
+      background: var(--green);
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .button:hover {
+      background: #174432;
+    }
+
+    .hero-image {
+      width: 100%;
+      max-width: 500px;
+      height: 340px;
+      margin: auto;
+
+      border-radius: 28px;
+      object-fit: cover;
+      box-shadow: 0 18px 40px rgba(35, 91, 69, 0.25);
+    }
+
+    .section {
+      max-width: 1180px;
+      margin: auto;
+      padding: 65px 28px;
+    }
+
+    .section h2 {
+      margin: 0 0 25px;
+      font-size: 36px;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+
+    .filter {
+      padding: 10px 16px;
+
+      border: 1px solid #cddbd0;
+      border-radius: 30px;
+      background: white;
+      color: var(--green);
+      cursor: pointer;
+    }
+
+    .filter.active,
+    .filter:hover {
+      background: var(--green);
+      color: white;
+    }
+
+    .recipes {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .recipe-card {
+      overflow: hidden;
+      border-radius: 18px;
+      background: white;
+      box-shadow: 0 6px 20px rgba(40, 78, 53, 0.08);
+      transition: transform 0.2s ease;
+    }
+
+    .recipe-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .recipe-image {
+      display: block;
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+    }
+
+    .recipe-content {
+      padding: 18px;
+    }
+
+    .recipe-tag {
+      color: var(--orange);
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .recipe-title {
+      margin: 8px 0;
+      font-size: 21px;
+    }
+
+    .recipe-meta {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .recipe-card-link,
+.recipe-card-link:hover,
+.recipe-card-link:visited {
+  text-decoration: none;
+}
+
+.recipe-card-link .recipe-title {
+  color: #000000;
+}
+
+.recipe-card-link .recipe-tag {
+  color: #f28c45;
+}
+
+.recipe-card-link .recipe-meta {
+  color: #718078;
+}
+
+    .about {
+      background: var(--green);
+      color: white;
+    }
+
+    .about p {
+      max-width: 650px;
+      color: #d8e8dc;
+      line-height: 1.7;
+    }
+
+    .facts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 45px;
+      margin-top: 30px;
+    }
+
+    .fact strong {
+      display: block;
+      font-size: 28px;
+    }
+
+    .fact span {
+      color: #c9dfcf;
+      font-size: 13px;
+    }
+
+    footer {
+      padding: 30px 28px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    @media (max-width: 750px) {
+      header {
+        padding: 18px;
+      }
+
+      nav {
+        display: none;
+      }
+
+      .hero {
+        padding: 50px 20px;
+      }
+
+      .hero-content {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-image {
+        height: 250px;
+      }
+
+      .section {
+        padding: 45px 20px;
+      }
+
+      .recipes {
+        grid-template-columns: 1fr;
+      }
+    }
+    .home-button {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 10;
+
+  display: none;
+  align-items: center;
+  gap: 8px;
+
+  padding: 13px 17px;
+  border: none;
+  border-radius: 999px;
+
+  background: #235b45;
+  color: white;
+  box-shadow: 0 8px 22px rgba(35, 91, 69, 0.28);
+
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: 0.2s ease;
+}
+
+.home-button:hover {
+  background: #174432;
+  transform: translateY(-2px);
+}
+
+  </style>
+</head>
+
+<body>
+
+<button
+  class="home-button"
+  id="homeButton"
+  aria-label="Вернуться на главный экран"
+>
+  ↑ На главную
+</button>
+
+ <header class="site-header">
+  <a class="logo" href="#top">
+    🥬 Зелёная тарелка
+  </a>
+
+  <button
+    class="burger"
+    id="burger"
+    aria-label="Открыть меню"
+    aria-expanded="false"
+  >
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <nav class="main-nav" id="mainNav">
+    <a href="#recipes">Рецепты</a>
+    <a href="#about">О проекте</a>
+  </nav>
+</header>
+
+  <main>
+
+    <section class="hero">
+      <div class="hero-content">
+
+        <div>
+          <div class="eyebrow">Просто. Вкусно. С пользой.</div>
+
+          <h1>Еда, после которой хорошо.</h1>
+
+          <p class="hero-text">
+            Коллекция быстрых рецептов правильного питания
+            для тех, кто хочет заботиться о себе без строгих
+            диет и скучных блюд.
+          </p>
+
+          <a class="button" href="#recipes">
+            Смотреть рецепты ↓
+          </a>
+        </div>
+
+        <!-- ФОТО НА ГЛАВНОМ ЭКРАНЕ -->
+        <img
+          class="hero-image"
+          src="pic/Рататуй-рецепт-классический-в-духовке.WebP"
+          alt="Полезное блюдо с овощами"
+        >
+
+      </div>
+    </section>
+
+    <section class="section" id="recipes">
+      <h2>Попробуйте сегодня</h2>
+
+      <div class="filters">
+        <button class="filter active" data-filter="all">
+          Все рецепты
+        </button>
+
+        <button class="filter" data-filter="breakfast">
+          Завтраки
+        </button>
+
+        <button class="filter" data-filter="lunch">
+          Обеды
+        </button>
+
+        <button class="filter" data-filter="dinner">
+          Ужины
+        </button>
+      </div>
+
+      <div class="recipes">
+
+        <article class="recipe-card" data-category="breakfast">
+          <a class="recipe-card-link" href="article.html">
+          <img
+            class="recipe-image"
+            src="pic/39eaf9a5-972a-4f37-9ef4-b856bed3f29d.WebP"
+            alt="Тост с авокадо и яйцом"
+          >
+
+          <div class="recipe-content">
+            <div class="recipe-tag">ЗАВТРАК · 10 МИН</div>
+            <h3 class="recipe-title">
+              Тост с авокадо и яйцом
+            </h3>
+            <div class="recipe-meta">
+              420 ккал · 18 г белка
+            </div>
+          </div>
+        </a>
+        </article>
+
+        <article class="recipe-card" data-category="lunch">
+          <a class="recipe-card-link" href="recipe-chicken.html">
+          <img
+            class="recipe-image"
+            src="pic/chichen.WebP"
+            alt="Боул с курицей и киноа"
+          >
+
+          <div class="recipe-content">
+            <div class="recipe-tag">ОБЕД · 25 МИН</div>
+            <h3 class="recipe-title">
+              Боул с курицей и киноа
+            </h3>
+            <div class="recipe-meta">
+              510 ккал · 36 г белка
+            </div>
+          </div>
+          </a>
+        </article>
+
+        <article class="recipe-card" data-category="dinner">
+          <a class="recipe-card-link" href="recipe-fish.html">
+          <img
+            class="recipe-image"
+            src="pic/fish.WebP"
+            alt="Лосось с овощами"
+          >
+
+          <div class="recipe-content">
+            <div class="recipe-tag">УЖИН · 20 МИН</div>
+            <h3 class="recipe-title">
+              Лосось с овощами
+            </h3>
+            <div class="recipe-meta">
+              390 ккал · 31 г белка
+            </div>
+          </div>
+          </a>
+        </article>
+
+      </div>
+    </section>
+
+    <section class="about" id="about">
+      <div class="section">
+        <h2>
+          Правильное питание —<br>
+          это не наказание.
+        </h2>
+
+        <p>
+          Мы собираем рецепты из понятных продуктов,
+          которые легко найти в ближайшем магазине.
+          Каждый рецепт содержит время приготовления
+          и примерную пищевую ценность.
+        </p>
+
+        <div class="facts">
+          <div class="fact">
+            <strong>50+</strong>
+            <span>простых рецептов</span>
+          </div>
+
+          <div class="fact">
+            <strong>30 мин</strong>
+            <span>максимум на готовку</span>
+          </div>
+
+          <div class="fact">
+            <strong>100%</strong>
+            <span>без сложных ингредиентов</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    © 2026 Зелёная тарелка · Сделано с заботой о себе
+  </footer>
+
+  <script>
+    const filters = document.querySelectorAll(".filter");
+    const cards = document.querySelectorAll(".recipe-card");
+
+    filters.forEach((button) => {
+      button.addEventListener("click", () => {
+        filters.forEach((item) => {
+          item.classList.remove("active");
+        });
+
+        button.classList.add("active");
+
+        const selectedCategory = button.dataset.filter;
+
+        cards.forEach((card) => {
+          const cardCategory = card.dataset.category;
+
+          if (
+            selectedCategory === "all" ||
+            selectedCategory === cardCategory
+          ) {
+            card.style.display = "block";
+          } else {
+            card.style.display = "none";
+          }
+        });
+      });
+    });
+
+    const homeButton = document.getElementById("homeButton");
+
+window.addEventListener("scroll", () => {
+  if (window.scrollY > 350) {
+    homeButton.style.display = "flex";
+  } else {
+    homeButton.style.display = "none";
+  }
+});
+
+homeButton.addEventListener("click", () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+});
+
+const burger = document.getElementById("burger");
+const mainNav = document.getElementById("mainNav");
+
+burger.addEventListener("click", () => {
+  const isOpen = mainNav.classList.toggle("open");
+
+  burger.classList.toggle("active", isOpen);
+  burger.setAttribute("aria-expanded", isOpen);
+  burger.setAttribute(
+    "aria-label",
+    isOpen ? "Закрыть меню" : "Открыть меню"
+  );
+});
+
+document.querySelectorAll(".main-nav a").forEach((link) => {
+  link.addEventListener("click", () => {
+    mainNav.classList.remove("open");
+    burger.classList.remove("active");
+    burger.setAttribute("aria-expanded", "false");
+    burger.setAttribute("aria-label", "Открыть меню");
+  });
+}); 
+  </script>
+
+</body>
+</html>
